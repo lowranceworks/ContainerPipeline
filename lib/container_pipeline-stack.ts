@@ -75,11 +75,21 @@ export class ContainerPipelineStack extends cdk.Stack {
 
     });
 
+
     // To create an onImageScanCompleted event rule and trigger the event target 
 
 
+    // Trigger pipeline when new image is uploaded 
 
-    const processPurchasePipeline = new pipeline.
+
+    const processPurchasePipeline = new pipeline.Pipeline(this, 'processPurchasePipeline', {
+
+    });
+
+    new codedeploy.LambdaDeploymentGroup(this, 'DeploymentGroup', {
+      alias,
+      deploymentConfig: codedeploy.LambdaDeploymentConfig.LINEAR_10PERCENT_EVERY_1MINUTE,
+    });
 
     // const processPurchaseDeploy = new codedeploy.LambdaDeploymentConfig(this, 'processPurchase.Deploy', {
       
