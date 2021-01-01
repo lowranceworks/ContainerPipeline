@@ -11,9 +11,9 @@ import * as cloudTrial from "@aws-cdk/aws-cloudtrail";
 import * as sns from "@aws-cdk/aws-sns";
 import * as iam from "@aws-cdk/aws-iam";
 import * as lambda from "@aws-cdk/aws-lambda";
-import * as subs from "aws-cdk/aws-sns-subscriptions";
-import * as events from "aws-cdk/aws-events";
-import * as targets from "aws-cdk/aws-events-targets";
+import * as subs from "@aws-cdk/aws-sns-subscriptions";
+import * as events from "@aws-cdk/aws-events";
+import * as targets from "@aws-cdk/aws-events-targets";
 import { App, Stack, StackProps } from "@aws-cdk/core";
 
 export class ContainerPipelineStack extends cdk.Stack {
