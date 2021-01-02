@@ -1,4 +1,5 @@
 import * as path from "path";
+import * as cdk from '@aws-cdk/core';
 import * as codeCommit from "@aws-cdk/aws-codecommit";
 import * as codeBuild from "@aws-cdk/aws-codebuild";
 import * as codeArtifact from "@aws-cdk/aws-codeartifact";
@@ -14,7 +15,6 @@ import * as lambda from "@aws-cdk/aws-lambda";
 import * as subs from "@aws-cdk/aws-sns-subscriptions";
 import * as events from "@aws-cdk/aws-events";
 import * as targets from "@aws-cdk/aws-events-targets";
-import { App, Stack, StackProps } from "@aws-cdk/core";
 
 export class ContainerPipelineStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -36,15 +36,15 @@ export class ContainerPipelineStack extends cdk.Stack {
     // processPurchase 
     
     // creates a code repository for the corresponding service 
-    const processPurchaseCodeRepo = new codecommit.Repository(this, 'processPurchase.CodeRepo', {
+    const processPurchaseCodeRepo = new codeCommit.Repository(this, 'processPurchase.CodeRepo', {
       repositoryName: 'processPurchase.CodeRepo',
       description: 'Repository containing code for the corresponding service used in the TransactionProcessor application',      
     });
     
     // builds docker image for corresponding service
-    const processPurchaseBuild = new codebuild.Project(this, 'processPurchase.codeBuild', {
+    const processPurchaseBuild = new codeBuild.Project(this, 'processPurchase.codeBuild', {
       description: 'Creates a docker image when a commit is made to the master branch', 
-      buildSpec: codebuild.BuildSpec.fromObject({
+      buildSpec: codeBuild.BuildSpec.fromObject({
         version: '0.2',
         phases: {
           build: {
@@ -88,13 +88,13 @@ export class ContainerPipelineStack extends cdk.Stack {
     // Trigger pipeline when new image is uploaded 
 
 
-    const processPurchasePipeline = new pipeline.Pipeline(this, 'processPurchasePipeline', {
+    const processPurchasePipeline = new codePipeline.Pipeline(this, 'processPurchasePipeline', {
 
     });
 
-    new codedeploy.LambdaDeploymentGroup(this, 'DeploymentGroup', {
+    new codeDeploy.LambdaDeploymentGroup(this, 'DeploymentGroup', {
       alias,
-      deploymentConfig: codedeploy.LambdaDeploymentConfig.LINEAR_10PERCENT_EVERY_1MINUTE,
+      deploymentConfig: codeDeploy.LambdaDeploymentConfig.LINEAR_10PERCENT_EVERY_1MINUTE,
     });
 
     // const processPurchaseDeploy = new codedeploy.LambdaDeploymentConfig(this, 'processPurchase.Deploy', {
