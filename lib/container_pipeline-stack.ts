@@ -29,9 +29,7 @@ export class ContainerPipelineStack extends cdk.Stack {
       // add emails you want notfied for when comments are made on pull requests  
     ));
 
-
-    // 
-    
+      
     // creates a code repository for the corresponding service 
     const repository = new codecommit.Repository(this, 'repository', {
       repositoryName: service,
@@ -60,7 +58,7 @@ export class ContainerPipelineStack extends cdk.Stack {
     });
 
     // publishes a message to SNS topic when a comment is made on a pull request
-    const processPurchaseCommentOnPullRequestAlert = repository.onCommentOnPullRequest('ProcessPurchaseCommentOnPullRequest', {
+    const commentOnPullRequestAlert = repository.onCommentOnPullRequest('ProcessPurchaseCommentOnPullRequest', {
       target: new targets.SnsTopic(serviceTopic),
     });
 
